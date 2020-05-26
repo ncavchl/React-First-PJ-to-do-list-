@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import Counter from './Counter.js'
 
 
 class App extends Component {
@@ -6,9 +7,19 @@ class App extends Component {
     super(props);
     this.state = {
       newItem: "",
-      list:[]
+      list:[],
+      number: 0
     };
   }
+
+  //증가 함수
+  handleIncrease = () => {
+    const {number} = this.state;
+    this.setState({
+      number:number + 1
+    });
+  }
+
 
   updateInput(key,value){
     this.setState({[key]:value});
@@ -49,18 +60,20 @@ class App extends Component {
             value={this.state.newItem}
             onChange={e => this.updateInput('newItem', e.target.value)}
           />
-        <button onClick={() => this.addItem()}></button>
+        <button onClick={() => this.addItem()}>+</button>
         <ul>
           {this.state.list.map(item => {
             return (
               <li key={item.id}>{item.value}
-                <button onClick={()=> this.deleteItem(item.id)}></button>
-                <i>X</i>
+                <button onClick={()=> this.deleteItem(item.id)}>X</button>
+                {/* <i>X</i> */}
               </li>
               
             );
           })}
         </ul>
+
+        <Counter handleIncrease={this.handleIncrease} number={this.state.number}></Counter>
       </div>
     );
   }
